@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Statistics from './components/Statistics';
 import Section from './components/Section';
-import { roadmapData } from './data/roadmapData';
+import RoadmapSelector from './components/RoadmapSelector';
+import { DotNetRoadmapData } from './data/DotNetRoadmapData';
+import { laravelRoadmapData } from './data/laravelRoadmapData';
 import {
   calculateProgress,
   calculateOverallProgress,
@@ -20,29 +22,40 @@ const App = () => {
   const [notes, setNotes] = useState({});
   const [showStats, setShowStats] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRoadmap, setSelectedRoadmap] = useState('dotnet'); // 'dotnet' or 'laravel'
+
+  // Get current roadmap data based on selection
+  const currentRoadmapData = selectedRoadmap === 'dotnet' ? DotNetRoadmapData : laravelRoadmapData;
 
   // Load data from storage
   useEffect(() => {
     const loadData = () => {
       try {
-        const stored = localStorage.getItem('dotnet-progress-v2');
+        const stored = localStorage.getItem(`${selectedRoadmap}-progress-v2`);
         if (stored) {
           const data = JSON.parse(stored);
           setProgress(data.progress || {});
           setLevel(data.level || 'beginner');
           setNotes(data.notes || {});
+        } else {
+          // Reset when switching roadmaps if no data exists
+          setProgress({});
+          setNotes({});
+          setLevel('beginner');
         }
       } catch (error) {
         console.log('Starting fresh');
+        setProgress({});
+        setNotes({});
       }
     };
     loadData();
-  }, []);
+  }, [selectedRoadmap]);
 
-  // Save data
+  // Save data to storage
   const saveData = (newProgress, newLevel, newNotes) => {
     try {
-      localStorage.setItem('dotnet-progress-v2', JSON.stringify({
+      localStorage.setItem(`${selectedRoadmap}-progress-v2`, JSON.stringify({
         progress: newProgress,
         level: newLevel,
         notes: newNotes
@@ -51,6 +64,7 @@ const App = () => {
       console.error('Failed to save:', error);
     }
   };
+
   const toggleSection = (section) => {
     setExpandedSections(prev => ({
       ...prev,
@@ -76,22 +90,27 @@ const App = () => {
   };
 
   const resetProgress = async () => {
-    if (window.confirm('Are you sure? This will delete all your progress and notes.')) {
+    if (window.confirm('Are you sure? This will delete all your progress and notes for this roadmap.')) {
       setProgress({});
       setNotes({});
-      await saveData({}, level, {});
+      saveData({}, level, {});
     }
   };
 
   const handleExportData = () => {
-    exportDataUtil(progress, level, notes);
+    exportDataUtil(progress, level, notes, selectedRoadmap);
   };
 
   const handleImportData = (e) => {
     importDataUtil(e.target.files[0], setProgress, setLevel, setNotes, saveData);
   };
 
-  const filteredSections = getLevelSections(level, roadmapData).filter(([section, data]) => {
+  const handleRoadmapChange = (roadmap) => {
+    setSelectedRoadmap(roadmap);
+    setExpandedSections({}); // Reset expanded sections when switching
+  };
+
+  const filteredSections = getLevelSections(level, currentRoadmapData).filter(([section, data]) => {
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
       const sectionMatch = section.toLowerCase().includes(searchLower);
@@ -101,12 +120,17 @@ const App = () => {
     return true;
   });
 
-  const overallProgress = calculateOverallProgress(roadmapData, progress);
-  const stats = getStats(roadmapData, progress);
+  const overallProgress = calculateOverallProgress(currentRoadmapData, progress);
+  const stats = getStats(currentRoadmapData, progress);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
+        <RoadmapSelector
+          selectedRoadmap={selectedRoadmap}
+          onRoadmapChange={handleRoadmapChange}
+        />
+
         <Header
           overallProgress={overallProgress}
           stats={stats}
@@ -118,6 +142,7 @@ const App = () => {
           handleImportData={handleImportData}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          roadmapTitle={selectedRoadmap === 'dotnet' ? '.NET Developer Roadmap 2025' : 'Laravel Developer Roadmap 2024'}
         />
 
         {showStats && <Statistics stats={stats} />}
@@ -130,7 +155,7 @@ const App = () => {
               data={data}
               isExpanded={expandedSections[section]}
               toggleSection={toggleSection}
-              sectionProgress={calculateProgress(section, roadmapData, progress)}
+              sectionProgress={calculateProgress(section, currentRoadmapData, progress)}
               progress={progress}
               notes={notes}
               toggleItem={toggleItem}
@@ -144,13 +169,19 @@ const App = () => {
             onClick={resetProgress}
             className="text-sm text-red-600 hover:text-red-700 font-medium mb-4"
           >
-            Reset All Progress
+            Reset All Progress for {selectedRoadmap === 'dotnet' ? '.NET' : 'Laravel'}
           </button>
           <p className="text-sm text-gray-600">
-            Based on the .NET Developer Roadmap by Dr. Milan Milanović
+            {selectedRoadmap === 'dotnet'
+              ? 'Based on the .NET Developer Roadmap by Dr. Milan Milanović'
+              : 'Based on the Laravel Developer Roadmap by Nehal Hasnayeen'
+            }
           </p>
           <a
-            href="https://github.com/milanm/DotNet-Developer-Roadmap"
+            href={selectedRoadmap === 'dotnet'
+              ? 'https://github.com/milanm/DotNet-Developer-Roadmap'
+              : 'https://github.com/Hasnayeen/laravel-developer-roadmap'
+            }
             target="_blank"
             rel="noopener noreferrer"
             className="text-purple-600 hover:text-purple-700 font-medium text-sm"

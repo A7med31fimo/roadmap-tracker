@@ -1,6 +1,6 @@
 // src/data/roadmapData.js
 
-export const roadmapData = {
+export const DotNetRoadmapData = {
     "C# Fundamentals": {
         level: 'beginner',
         estimatedHours: 40,

@@ -48,18 +48,19 @@ export const getStats = (roadmapData, progress) => {
     };
 };
 
-export const exportData = (progress, level, notes) => {
+export const exportData = (progress, level, notes, roadmapType = 'dotnet') => {
     const data = {
         progress,
         level,
         notes,
+        roadmapType,
         exportDate: new Date().toISOString()
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `dotnet-roadmap-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `${roadmapType}-roadmap-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
 };

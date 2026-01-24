@@ -12,7 +12,8 @@ const Header = ({
     exportData,
     handleImportData,
     searchTerm,
-    setSearchTerm
+    setSearchTerm,
+    roadmapTitle
 }) => {
     return (
         <div className="bg-white rounded-xl shadow-xl p-6 mb-6 border border-purple-100">
@@ -20,8 +21,8 @@ const Header = ({
                 <div className="flex items-center gap-3">
                     <BookOpen className="w-10 h-10 text-purple-600" />
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-800">.NET Developer Roadmap 2025</h1>
-                        <p className="text-sm text-gray-600 mt-1">Track your journey to becoming a .NET expert</p>
+                        <h1 className="text-3xl font-bold text-gray-800">{roadmapTitle}</h1>
+                        <p className="text-sm text-gray-600 mt-1">Track your journey to becoming an expert developer</p>
                     </div>
                 </div>
                 <Award className="w-10 h-10 text-yellow-500" />

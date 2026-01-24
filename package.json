@@ -1,9 +1,9 @@
 {
-  "name": "dotnet-roadmap-tracker",
+  "name": "roadmap-tracker",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://YOUR-USERNAME.github.io/dotnet-roadmap-tracker",
+  "homepage": "https://YOUR-USERNAME.github.io/roadmap-tracker",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

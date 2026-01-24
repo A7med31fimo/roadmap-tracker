@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/dotnet-roadmap-tracker/'  // Replace with your repo name
+  base: '/roadmap-tracker/'  // Replace with your repo name
 })

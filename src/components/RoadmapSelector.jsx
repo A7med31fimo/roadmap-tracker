@@ -1,6 +1,6 @@
 // src/components/RoadmapSelector.jsx
 import React from 'react';
-import { Code2, Server } from 'lucide-react';
+import { Code2, Server, Cpu } from 'lucide-react';
 
 const RoadmapSelector = ({ selectedRoadmap, onRoadmapChange }) => {
     return (
@@ -8,7 +8,7 @@ const RoadmapSelector = ({ selectedRoadmap, onRoadmapChange }) => {
             <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
                 Choose Your Learning Path
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* .NET Roadmap Card */}
                 <button
                     onClick={() => onRoadmapChange('dotnet')}
@@ -101,6 +101,56 @@ const RoadmapSelector = ({ selectedRoadmap, onRoadmapChange }) => {
                         </div>
                     </div>
                     {selectedRoadmap === 'laravel' && (
+                        <div className="absolute top-3 right-3">
+                            <div className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                ✓ Selected
+                            </div>
+                        </div>
+                    )}
+                </button>
+
+                {/* Spring Boot Roadmap Card */}
+                <button
+                    onClick={() => onRoadmapChange('springboot')}
+                    className={`relative p-6 rounded-xl border-2 transition-all duration-300 text-left ${selectedRoadmap === 'springboot'
+                            ? 'border-green-600 bg-gradient-to-br from-green-50 to-emerald-50 shadow-lg scale-105'
+                            : 'border-gray-200 bg-white hover:border-green-300 hover:shadow-md'
+                        }`}
+                >
+                    <div className="flex items-start gap-4">
+                        <div className={`p-3 rounded-lg ${selectedRoadmap === 'springboot'
+                                ? 'bg-green-600'
+                                : 'bg-gray-100'
+                            }`}>
+                            <Cpu className={`w-8 h-8 ${selectedRoadmap === 'springboot'
+                                    ? 'text-white'
+                                    : 'text-gray-600'
+                                }`} />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-lg font-bold text-gray-800 mb-2">
+                                Spring Boot Developer
+                            </h3>
+                            <p className="text-sm text-gray-600 mb-3">
+                                Master Java, Spring Boot, Spring Security, Microservices, and Cloud-native development
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                                <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">
+                                    Java 21
+                                </span>
+                                <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded">
+                                    Spring Boot 3
+                                </span>
+                                <span className="px-2 py-1 bg-teal-100 text-teal-700 text-xs font-medium rounded">
+                                    Microservices
+                                </span>
+                                <span className="px-2 py-1 bg-cyan-100 text-cyan-700 text-xs font-medium rounded">
+                                    Spring AI
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {selectedRoadmap === 'springboot' && (
                         <div className="absolute top-3 right-3">
                             <div className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                                 ✓ Selected

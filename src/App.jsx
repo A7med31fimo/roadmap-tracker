@@ -6,6 +6,7 @@ import Section from './components/Section';
 import RoadmapSelector from './components/RoadmapSelector';
 import { DotNetRoadmapData } from './data/DotNetRoadmapData';
 import { laravelRoadmapData } from './data/laravelRoadmapData';
+import { springBootRoadmapData } from './data/springBootRoadmapData';
 import {
   calculateProgress,
   calculateOverallProgress,
@@ -25,7 +26,11 @@ const App = () => {
   const [selectedRoadmap, setSelectedRoadmap] = useState('dotnet'); // 'dotnet' or 'laravel'
 
   // Get current roadmap data based on selection
-  const currentRoadmapData = selectedRoadmap === 'dotnet' ? DotNetRoadmapData : laravelRoadmapData;
+  const currentRoadmapData = selectedRoadmap === 'dotnet'
+    ? DotNetRoadmapData
+    : selectedRoadmap === 'laravel'
+      ? laravelRoadmapData
+      : springBootRoadmapData;
 
   // Load data from storage
   useEffect(() => {
@@ -142,7 +147,13 @@ const App = () => {
           handleImportData={handleImportData}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          roadmapTitle={selectedRoadmap === 'dotnet' ? '.NET Developer Roadmap 2025' : 'Laravel Developer Roadmap 2024'}
+          roadmapTitle={
+            selectedRoadmap === 'dotnet'
+              ? '.NET Developer Roadmap 2025'
+              : selectedRoadmap === 'laravel'
+                ? 'Laravel Developer Roadmap 2024'
+                : 'Spring Boot Developer Roadmap 2025'
+          }
         />
 
         {showStats && <Statistics stats={stats} />}
@@ -169,18 +180,22 @@ const App = () => {
             onClick={resetProgress}
             className="text-sm text-red-600 hover:text-red-700 font-medium mb-4"
           >
-            Reset All Progress for {selectedRoadmap === 'dotnet' ? '.NET' : 'Laravel'}
+            Reset All Progress for {selectedRoadmap === 'dotnet' ? '.NET' : selectedRoadmap === 'laravel' ? 'Laravel' : 'Spring Boot'}
           </button>
           <p className="text-sm text-gray-600">
             {selectedRoadmap === 'dotnet'
               ? 'Based on the .NET Developer Roadmap by Dr. Milan Milanović'
-              : 'Based on the Laravel Developer Roadmap by Nehal Hasnayeen'
+              : selectedRoadmap === 'laravel'
+                ? 'Based on the Laravel Developer Roadmap by Nehal Hasnayeen'
+                : 'Based on the Spring Boot Roadmap by Bhuvnesh Arya'
             }
           </p>
           <a
             href={selectedRoadmap === 'dotnet'
               ? 'https://github.com/milanm/DotNet-Developer-Roadmap'
-              : 'https://github.com/Hasnayeen/laravel-developer-roadmap'
+              : selectedRoadmap === 'laravel'
+                ? 'https://github.com/Hasnayeen/laravel-developer-roadmap'
+                : 'https://github.com/bhuvnesharya/Perfect-Roadmap-To-Learn-Java-SpringBoot-In-2024'
             }
             target="_blank"
             rel="noopener noreferrer"

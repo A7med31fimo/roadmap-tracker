@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(Start-Sleep -Seconds 3)",
+      "Bash(Get-Content \"C:\\\\Users\\\\Exabyte\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--xampp-htdocs-coursesforyou-roadmap-tracker\\\\180c0e0f-754e-4b46-b99c-cb102cee4af3\\\\tasks\\\\bxsnjs3rj.output\" -Tail 20)",
+      "Bash(curl -s http://localhost:5173/roadmap-tracker/)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
+    ]
+  }
+}

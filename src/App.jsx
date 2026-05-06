@@ -129,7 +129,7 @@ const App = () => {
   const stats = getStats(currentRoadmapData, progress);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         <RoadmapSelector
           selectedRoadmap={selectedRoadmap}
@@ -178,11 +178,11 @@ const App = () => {
         <div className="mt-8 text-center">
           <button
             onClick={resetProgress}
-            className="text-sm text-red-600 hover:text-red-700 font-medium mb-4"
+            className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium mb-4"
           >
             Reset All Progress for {selectedRoadmap === 'dotnet' ? '.NET' : selectedRoadmap === 'laravel' ? 'Laravel' : 'Spring Boot'}
           </button>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             {selectedRoadmap === 'dotnet'
               ? 'Based on the .NET Developer Roadmap by Dr. Milan Milanović'
               : selectedRoadmap === 'laravel'
@@ -199,7 +199,7 @@ const App = () => {
             }
             target="_blank"
             rel="noopener noreferrer"
-            className="text-purple-600 hover:text-purple-700 font-medium text-sm"
+            className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium text-sm"
           >
             View Full Roadmap on GitHub →
           </a>
